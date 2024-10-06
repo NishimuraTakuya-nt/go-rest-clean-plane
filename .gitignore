@@ -1,0 +1,32 @@
+# Binary executables
+main
+
+# Build directories
+bin/
+build/
+dist/
+
+# Dependency directories
+vendor/
+
+# Test coverage files
+coverage.out
+
+# Editor settings and directories
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables file
+.env
