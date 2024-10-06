@@ -11,12 +11,14 @@ import (
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
 
+var UserKey = struct{}{}
+
 var excludedPaths = []string{
 	"/api/v1/auth/login",
 	"/api/v1/healthcheck",
 }
 
-func Authenticate(authService auth.AuthService) Middleware {
+func Authenticate(tokenService auth.TokenService) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			log := logger.GetLogger()
@@ -50,7 +52,7 @@ func Authenticate(authService auth.AuthService) Middleware {
 			}
 
 			tokenString := authHeader[7:]
-			claims, err := authService.ValidateToken(tokenString)
+			claims, err := tokenService.ValidateToken(tokenString)
 			if err != nil {
 				log.Error("Token validation failed", "error", err)
 				rw.WriteError(apperrors.NewUnauthorizedError("Invalid or expired token", nil))
@@ -62,7 +64,8 @@ func Authenticate(authService auth.AuthService) Middleware {
 				Roles: claims.Roles,
 			}
 
-			ctx := context.WithValue(r.Context(), "user", user)
+			// nolint:staticcheck
+			ctx := context.WithValue(r.Context(), UserKey, user)
 			log.Info("User authenticated", "user_id", user.ID)
 			next.ServeHTTP(rw, r.WithContext(ctx))
 		})

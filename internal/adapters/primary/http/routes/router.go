@@ -5,7 +5,7 @@ import (
 
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/handlers"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/middleware"
-	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/routes/v1"
+	v1 "github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/routes/v1"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/usecases"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/auth"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/config"
@@ -13,7 +13,7 @@ import (
 
 func SetupRouter(
 	cfg *config.Config,
-	authService auth.AuthService,
+	tokenService auth.TokenService,
 	userUseCase usecases.UserUseCase,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -26,7 +26,7 @@ func SetupRouter(
 	mux.Handle("/api/v1/", http.StripPrefix("/api/v1", apiV1))
 
 	v1.SetupHealthcheckRoutes(apiV1)
-	v1.SetupAuthRoutes(apiV1, authService)
+	v1.SetupAuthRoutes(apiV1, tokenService)
 
 	v1.SetupUserRoutes(apiV1, userUseCase)
 	v1.SetupProductRoutes(apiV1)
@@ -42,7 +42,7 @@ func SetupRouter(
 		middleware.CORS(corsConfig),
 		middleware.Logging(),
 		middleware.ErrorHandler(),
-		middleware.Authenticate(authService),
+		middleware.Authenticate(tokenService),
 	)
 	return handler
 }

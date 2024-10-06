@@ -17,6 +17,7 @@ func ErrorHandler() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			requestID := uuid.New().String()
+			// nolint:staticcheck
 			ctx := context.WithValue(r.Context(), RequestIDKey, requestID)
 			r = r.WithContext(ctx)
 			log := logger.GetLogger()

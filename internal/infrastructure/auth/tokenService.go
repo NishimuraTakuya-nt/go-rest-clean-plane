@@ -7,12 +7,12 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type AuthService interface {
+type TokenService interface {
 	GenerateToken(userID string, roles []string) (string, error)
 	ValidateToken(tokenString string) (*Claims, error)
 }
 
-type authService struct {
+type tokenService struct {
 	secretKey []byte
 }
 
@@ -22,11 +22,11 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func NewAuthService(secretKey string) AuthService {
-	return &authService{secretKey: []byte(secretKey)}
+func NewTokenService(secretKey string) TokenService {
+	return &tokenService{secretKey: []byte(secretKey)}
 }
 
-func (s *authService) GenerateToken(userID string, roles []string) (string, error) {
+func (s *tokenService) GenerateToken(userID string, roles []string) (string, error) {
 	claims := &Claims{
 		UserID: userID,
 		Roles:  roles,
@@ -41,8 +41,8 @@ func (s *authService) GenerateToken(userID string, roles []string) (string, erro
 	return token.SignedString(s.secretKey)
 }
 
-func (s *authService) ValidateToken(tokenString string) (*Claims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (any, error) {
+func (s *tokenService) ValidateToken(tokenString string) (*Claims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(_ *jwt.Token) (any, error) {
 		return s.secretKey, nil
 	})
 

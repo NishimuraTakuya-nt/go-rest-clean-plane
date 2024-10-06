@@ -19,7 +19,7 @@ func NewClient() Client {
 	return &client{}
 }
 
-func (c *client) GetUser(ctx context.Context, ID string) (*models.User, error) {
+func (c *client) GetUser(_ context.Context, ID string) (*models.User, error) {
 	// ここでは簡易的に固定のユーザーを返していますが、
 	// 実際には取得する処理を実装します
 

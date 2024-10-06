@@ -21,7 +21,8 @@ func (h *HealthcheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *HealthcheckHandler) Get(w http.ResponseWriter, r *http.Request) {
+func (h *HealthcheckHandler) Get(w http.ResponseWriter, _ *http.Request) {
 	// healthcheck
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "healthcheck ok"})
 }

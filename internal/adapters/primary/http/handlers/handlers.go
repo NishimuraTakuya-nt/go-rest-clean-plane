@@ -13,7 +13,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	json.NewEncoder(w).Encode(map[string]string{"message": "Welcome to the API"})
+	err := json.NewEncoder(w).Encode(map[string]string{"message": "Welcome to the API"})
+	if err != nil {
+		logger.GetLogger().Warn("Failed to encode response", "error", err)
+		return
+	}
 }
 
 func writeError(w http.ResponseWriter, err error) {

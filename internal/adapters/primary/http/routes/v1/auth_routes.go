@@ -7,7 +7,7 @@ import (
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/auth"
 )
 
-func SetupAuthRoutes(mux *http.ServeMux, authService auth.AuthService) {
+func SetupAuthRoutes(mux *http.ServeMux, authService auth.TokenService) {
 	authHandler := handlers.NewAuthHandler(authService)
 	mux.Handle("/auth/", authHandler)
 }

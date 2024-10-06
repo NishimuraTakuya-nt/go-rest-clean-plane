@@ -29,27 +29,32 @@ func (h *OrderHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *OrderHandler) List(w http.ResponseWriter, r *http.Request) {
+func (h *OrderHandler) List(w http.ResponseWriter, _ *http.Request) {
 	// 注文一覧の取得処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "List orders"})
 }
 
-func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *OrderHandler) Create(w http.ResponseWriter, _ *http.Request) {
 	// 注文作成処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Create order"})
 }
 
-func (h *OrderHandler) Get(w http.ResponseWriter, r *http.Request) {
+func (h *OrderHandler) Get(w http.ResponseWriter, _ *http.Request) {
 	// 特定の注文取得処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Get order"})
 }
 
-func (h *OrderHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (h *OrderHandler) Update(w http.ResponseWriter, _ *http.Request) {
 	// 注文更新処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Update order"})
 }
 
-func (h *OrderHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (h *OrderHandler) Delete(w http.ResponseWriter, _ *http.Request) {
 	// 注文削除処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Delete order"})
 }

@@ -29,11 +29,11 @@ func run() error {
 	log := logger.GetLogger()
 	cfg := config.Load()
 
-	authService := auth.NewAuthService(cfg.JWTSecretKey)
+	tokenService := auth.NewTokenService(cfg.JWTSecretKey)
 	graphQLClient := graphql.NewClient()
 	userUseCase := usecases.NewUserUseCase(graphQLClient)
 
-	router := routes.SetupRouter(cfg, authService, userUseCase)
+	router := routes.SetupRouter(cfg, tokenService, userUseCase)
 
 	srv := &http.Server{
 		Addr:    cfg.ServerAddress,

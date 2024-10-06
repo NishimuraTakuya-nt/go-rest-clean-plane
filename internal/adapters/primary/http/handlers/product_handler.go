@@ -29,27 +29,32 @@ func (h *ProductHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) List(w http.ResponseWriter, _ *http.Request) {
 	// 商品一覧の取得処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "List products"})
 }
 
-func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Create(w http.ResponseWriter, _ *http.Request) {
 	// 商品作成処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Create product"})
 }
 
-func (h *ProductHandler) Get(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Get(w http.ResponseWriter, _ *http.Request) {
 	// 特定の商品取得処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Get product"})
 }
 
-func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Update(w http.ResponseWriter, _ *http.Request) {
 	// 商品更新処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Update product"})
 }
 
-func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Delete(w http.ResponseWriter, _ *http.Request) {
 	// 商品削除処理
+	// nolint:errcheck
 	json.NewEncoder(w).Encode(map[string]string{"message": "Delete product"})
 }
