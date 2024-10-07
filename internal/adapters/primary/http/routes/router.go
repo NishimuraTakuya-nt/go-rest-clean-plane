@@ -3,6 +3,8 @@ package routes
 import (
 	"net/http"
 
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/handlers"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/middleware"
 	v1 "github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/routes/v1"
@@ -20,6 +22,10 @@ func SetupRouter(
 
 	// ルートハンドラの登録
 	mux.HandleFunc("/", handlers.HomeHandler)
+	// Swagger
+	mux.Handle("/swagger/", httpSwagger.Handler(
+		httpSwagger.URL("/swagger/doc.json"),
+	))
 
 	// API v1 ルート
 	apiV1 := http.NewServeMux()

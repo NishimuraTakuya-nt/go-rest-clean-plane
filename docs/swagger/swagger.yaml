@@ -1,0 +1,74 @@
+basePath: /api/v1
+definitions:
+  middleware.ErrorResponse:
+    description: Error response structure
+    properties:
+      details: {}
+      message:
+        type: string
+      request_id:
+        type: string
+      status_code:
+        type: integer
+      type:
+        type: string
+    type: object
+  models.User:
+    description: User account information
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      updated_at:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: This is a sample server for a Go REST API using clean architecture.
+  title: Go REST Clean API
+  version: "1.0"
+paths:
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middleware.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middleware.ErrorResponse'
+      summary: Get a user by ID
+      tags:
+      - users
+swagger: "2.0"

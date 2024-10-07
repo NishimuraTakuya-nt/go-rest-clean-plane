@@ -115,6 +115,8 @@ func handleError(rw *ResponseWriter, err error, requestID string) {
 	}
 }
 
+// ErrorResponse represents an error response
+// @Description Error response structure
 type ErrorResponse struct {
 	StatusCode int    `json:"status_code"`
 	Type       string `json:"type"`
