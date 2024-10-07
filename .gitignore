@@ -10,7 +10,7 @@ dist/
 vendor/
 
 # Test coverage files
-coverage.out
+coverage.txt
 
 # Editor settings and directories
 .vscode/

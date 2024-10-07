@@ -4,13 +4,17 @@ NAME := go-rest-clean-plane
 DC := docker compose
 LDFLAGS := -ldflags="-s -w -extldflags \"-static\""
 
-
+## Local ##
 lint: ## Run linter
 	golangci-lint run
 
 lint-fix: ## Run linter with fix
 	golangci-lint run --fix
 
+test: ## Run tests
+	go test -v ./...
+
+## Container ##
 build: ## Build image
 	$(DC) build $(NAME)
 

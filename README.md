@@ -21,7 +21,6 @@ base project for go rest api
 │     │         └── graphql
 │     ├── core : ビジネスロジック
 │     │     ├── domain
-│     │     ├── interfaces
 │     │     ├── services
 │     │     └── usecases
 │     ├── errors

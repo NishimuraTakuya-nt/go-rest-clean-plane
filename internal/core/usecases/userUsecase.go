@@ -5,10 +5,11 @@ import (
 
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/secondary/graphql"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/domain/models"
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
 
 type UserUseCase interface {
-	GetUser(ctx context.Context, id string) (*models.User, error)
+	GetUser(ctx context.Context, ID string) (*models.User, error)
 }
 
 type userUseCase struct {
@@ -21,7 +22,14 @@ func NewUserUseCase(client graphql.Client) UserUseCase {
 	}
 }
 
-func (uc *userUseCase) GetUser(ctx context.Context, id string) (*models.User, error) {
+func (uc *userUseCase) GetUser(ctx context.Context, ID string) (*models.User, error) {
 	// todo trace log
-	return uc.graphqlClient.GetUser(ctx, id)
+
+	n := lenID(ID)
+	logger.GetLogger().Info("lenID", "n", n)
+	return uc.graphqlClient.GetUser(ctx, ID)
+}
+
+func lenID(ID string) int {
+	return len(ID)
 }
