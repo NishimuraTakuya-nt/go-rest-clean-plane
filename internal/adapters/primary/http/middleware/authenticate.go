@@ -17,6 +17,7 @@ var excludedPaths = []string{
 	"/api/v1/auth/login",
 	"/api/v1/healthcheck",
 	"/swagger/",
+	"/docs/swagger/",
 }
 
 func Authenticate(tokenService auth.TokenService) Middleware {

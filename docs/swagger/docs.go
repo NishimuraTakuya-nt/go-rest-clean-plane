@@ -126,6 +126,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "This is a sample server for a Go REST API using clean architecture.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {

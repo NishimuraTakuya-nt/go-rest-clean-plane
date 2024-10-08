@@ -1,0 +1,19 @@
+{
+  "name": "go-rest-clean-plane",
+  "version": "1.0.0",
+  "description": "base project for go rest api",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "convert-openapi": "api-spec-converter --from=swagger_2 --to=openapi_3 --syntax=json docs/swagger/swagger.json > docs/swagger/openapi3.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "api-spec-converter": "^2.12.0"
+  }
+}

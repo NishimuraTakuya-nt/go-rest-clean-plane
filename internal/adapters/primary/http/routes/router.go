@@ -22,10 +22,15 @@ func SetupRouter(
 
 	// ルートハンドラの登録
 	mux.HandleFunc("/", handlers.HomeHandler)
-	// Swagger
-	mux.Handle("/swagger/", httpSwagger.Handler(
+	// Swagger 2.0
+	mux.Handle("/swagger/2.0/", httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),
 	))
+	// OAS 3.0
+	mux.Handle("/swagger/", httpSwagger.Handler(
+		httpSwagger.URL("/docs/swagger/openapi3.json"),
+	))
+	mux.Handle("/docs/swagger/", http.StripPrefix("/docs/swagger/", http.FileServer(http.Dir("./docs/swagger"))))
 
 	// API v1 ルート
 	apiV1 := http.NewServeMux()
