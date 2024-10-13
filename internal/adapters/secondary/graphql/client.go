@@ -5,10 +5,12 @@ import (
 	"time"
 
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/domain/models"
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
 
 type Client interface {
 	GetUser(ctx context.Context, id string) (*models.User, error)
+	ListUser(ctx context.Context, offset, limit *int) ([]*models.User, error)
 }
 
 type client struct {
@@ -30,5 +32,21 @@ func (c *client) GetUser(_ context.Context, ID string) (*models.User, error) {
 		Email:     "user@example.com",
 		CreatedAt: time.Now().Add(-24 * time.Hour),
 		UpdatedAt: time.Now(),
+	}, nil
+}
+
+func (c *client) ListUser(_ context.Context, offset, limit *int) ([]*models.User, error) {
+	logger.GetLogger().Error("client ListUser", "offset", offset, "limit", limit)
+	return []*models.User{
+		{
+			ID:    "1",
+			Name:  "example_user1",
+			Roles: []string{"teamA:editor", "teamB:viewer"},
+		},
+		{
+			ID:    "2",
+			Name:  "example_user2",
+			Roles: []string{"teamA:viewer", "teamB:editor"},
+		},
 	}, nil
 }

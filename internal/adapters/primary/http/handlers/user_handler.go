@@ -7,6 +7,7 @@ import (
 
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/middleware"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/apperrors"
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/domain/models"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/usecases"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
@@ -42,7 +43,7 @@ func (h *UserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // Get godoc
 // @Summary Get a user by ID
 // @Description Get details of a user
-// @Tags users
+// @Tags user
 // @Accept  json
 // @Produce  json
 // @Param id path string true "User ID"
@@ -64,7 +65,7 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 	userID := parts[2]
 
-	user, err := h.userUseCase.GetUser(ctx, userID)
+	user, err := h.userUseCase.Get(ctx, userID)
 	// ///////////////////////////////////////////////////////////////////////
 	//num, _ := strconv.Atoi(userID)
 	//switch num {
@@ -102,10 +103,55 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	writeJSONResponse(w, user, requestID)
 }
 
-func (h *UserHandler) List(w http.ResponseWriter, _ *http.Request) {
-	// ユーザー一覧の取得処理
-	// nolint:errcheck
-	json.NewEncoder(w).Encode(map[string]string{"message": "List users"})
+// List godoc
+// @Summary List users
+// @Description Get a list of users with pagination
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param offset query int false "Offset for pagination" default(0) minimum(0)
+// @Param limit query int false "Limit for pagination" default(10) maximum(100)
+// @Success 200 {object} ListUserResponse
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 500 {object} middleware.ErrorResponse
+// @Router /users [get]
+func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	log := logger.GetLogger()
+	requestID, _ := ctx.Value(middleware.RequestIDKey).(string)
+
+	// クエリパラメータの取得とバリデーション
+	offset, limit, err := getPaginationParams(r)
+	if err != nil {
+		log.Warn("Invalid pagination parameters", "error", err, "request_id", requestID)
+		writeError(w, apperrors.NewBadRequestError(err.Error(), err))
+		return
+	}
+
+	// ユーザーリストの取得
+	users, err := h.userUseCase.List(ctx, offset, limit)
+	if err != nil {
+		log.Error("Failed to get user list", "error", err, "request_id", requestID)
+		writeError(w, err)
+		return
+	}
+
+	// レスポンスの作成
+	response := ListUserResponse{
+		Users:  users,
+		Offset: offset,
+		Limit:  limit,
+	}
+
+	writeJSONResponse(w, response, requestID)
+}
+
+// ListUserResponse はユーザーリストのレスポンス構造体です
+type ListUserResponse struct {
+	Users      []*models.User `json:"users"`
+	TotalCount *int           `json:"total_count"`
+	Offset     *int           `json:"offset"`
+	Limit      *int           `json:"limit"`
 }
 
 func (h *UserHandler) Create(w http.ResponseWriter, _ *http.Request) {

@@ -9,7 +9,8 @@ import (
 )
 
 type UserUseCase interface {
-	GetUser(ctx context.Context, ID string) (*models.User, error)
+	Get(ctx context.Context, ID string) (*models.User, error)
+	List(ctx context.Context, offset, limit *int) ([]*models.User, error)
 }
 
 type userUseCase struct {
@@ -22,7 +23,7 @@ func NewUserUseCase(client graphql.Client) UserUseCase {
 	}
 }
 
-func (uc *userUseCase) GetUser(ctx context.Context, ID string) (*models.User, error) {
+func (uc *userUseCase) Get(ctx context.Context, ID string) (*models.User, error) {
 	// todo trace log
 
 	n := lenID(ID)
@@ -32,4 +33,8 @@ func (uc *userUseCase) GetUser(ctx context.Context, ID string) (*models.User, er
 
 func lenID(ID string) int {
 	return len(ID)
+}
+
+func (uc *userUseCase) List(ctx context.Context, offset, limit *int) ([]*models.User, error) {
+	return uc.graphqlClient.ListUser(ctx, offset, limit)
 }

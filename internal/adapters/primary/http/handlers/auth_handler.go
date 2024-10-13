@@ -37,9 +37,21 @@ type LoginResponse struct {
 	Token string `json:"token"`
 }
 
-// fixme usecase に処理を移す
+// Login godoc
+// @Summary User login
+// @Description Authenticate a user and return a JWT token
+// @Tags authentication
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "Login credentials"
+// @Success 200 {object} LoginResponse
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 500 {object} middleware.ErrorResponse
+// @Router /auth/login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	log := logger.GetLogger()
+
+	// fixme usecase に処理を移す
 
 	var req LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
