@@ -10,7 +10,7 @@ import (
 
 type Client interface {
 	GetUser(ctx context.Context, id string) (*models.User, error)
-	ListUser(ctx context.Context, offset, limit *int) ([]*models.User, error)
+	ListUser(ctx context.Context, offset, limit *int) ([]models.User, error)
 }
 
 type client struct {
@@ -35,9 +35,9 @@ func (c *client) GetUser(_ context.Context, ID string) (*models.User, error) {
 	}, nil
 }
 
-func (c *client) ListUser(_ context.Context, offset, limit *int) ([]*models.User, error) {
+func (c *client) ListUser(_ context.Context, offset, limit *int) ([]models.User, error) {
 	logger.GetLogger().Error("client ListUser", "offset", offset, "limit", limit)
-	return []*models.User{
+	return []models.User{
 		{
 			ID:    "1",
 			Name:  "example_user1",

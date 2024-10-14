@@ -1,18 +1,5 @@
 basePath: /api/v1
 definitions:
-  handlers.ListUserResponse:
-    properties:
-      limit:
-        type: integer
-      offset:
-        type: integer
-      total_count:
-        type: integer
-      users:
-        items:
-          $ref: '#/definitions/models.User'
-        type: array
-    type: object
   handlers.LoginRequest:
     properties:
       password:
@@ -38,7 +25,21 @@ definitions:
       type:
         type: string
     type: object
-  models.User:
+  response.ListUserResponse:
+    description: User account list information
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total_count:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/response.UserResponse'
+        type: array
+    type: object
+  response.UserResponse:
     description: User account information
     properties:
       created_at:
@@ -110,7 +111,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/response.UserResponse'
         "400":
           description: Bad Request
           schema:
@@ -150,7 +151,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.ListUserResponse'
+            $ref: '#/definitions/response.ListUserResponse'
         "400":
           description: Bad Request
           schema:

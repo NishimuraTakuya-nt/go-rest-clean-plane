@@ -87,7 +87,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/response.UserResponse"
                         }
                     },
                     "400": {
@@ -146,7 +146,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ListUserResponse"
+                            "$ref": "#/definitions/response.ListUserResponse"
                         }
                     },
                     "400": {
@@ -166,26 +166,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handlers.ListUserResponse": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "type": "integer"
-                },
-                "offset": {
-                    "type": "integer"
-                },
-                "total_count": {
-                    "type": "integer"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.User"
-                    }
-                }
-            }
-        },
         "handlers.LoginRequest": {
             "type": "object",
             "properties": {
@@ -224,7 +204,28 @@ const docTemplate = `{
                 }
             }
         },
-        "models.User": {
+        "response.ListUserResponse": {
+            "description": "User account list information",
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "total_count": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.UserResponse"
+                    }
+                }
+            }
+        },
+        "response.UserResponse": {
             "description": "User account information",
             "type": "object",
             "properties": {

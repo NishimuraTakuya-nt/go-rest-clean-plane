@@ -10,7 +10,7 @@ import (
 
 type UserUseCase interface {
 	Get(ctx context.Context, ID string) (*models.User, error)
-	List(ctx context.Context, offset, limit *int) ([]*models.User, error)
+	List(ctx context.Context, offset, limit *int) ([]models.User, error)
 }
 
 type userUseCase struct {
@@ -35,6 +35,6 @@ func lenID(ID string) int {
 	return len(ID)
 }
 
-func (uc *userUseCase) List(ctx context.Context, offset, limit *int) ([]*models.User, error) {
+func (uc *userUseCase) List(ctx context.Context, offset, limit *int) ([]models.User, error) {
 	return uc.graphqlClient.ListUser(ctx, offset, limit)
 }

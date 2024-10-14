@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/dto/response"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/middleware"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/apperrors"
-	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/domain/models"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/usecases"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
@@ -47,7 +47,7 @@ func (h *UserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // @Accept  json
 // @Produce  json
 // @Param id path string true "User ID"
-// @Success 200 {object} models.User
+// @Success 200 {object} response.UserResponse
 // @Failure 400 {object} middleware.ErrorResponse
 // @Failure 404 {object} middleware.ErrorResponse
 // @Failure 500 {object} middleware.ErrorResponse
@@ -100,7 +100,9 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSONResponse(w, user, requestID)
+	res := response.ToUserResponse(user)
+
+	writeJSONResponse(w, res, requestID)
 }
 
 // List godoc
@@ -111,7 +113,7 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 // @Produce  json
 // @Param offset query int false "Offset for pagination" default(0) minimum(0)
 // @Param limit query int false "Limit for pagination" default(10) maximum(100)
-// @Success 200 {object} ListUserResponse
+// @Success 200 {object} response.ListUserResponse
 // @Failure 400 {object} middleware.ErrorResponse
 // @Failure 500 {object} middleware.ErrorResponse
 // @Router /users [get]
@@ -136,22 +138,9 @@ func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// レスポンスの作成
-	response := ListUserResponse{
-		Users:  users,
-		Offset: offset,
-		Limit:  limit,
-	}
+	res := response.ToListUserResponse(users, *offset, *limit)
 
-	writeJSONResponse(w, response, requestID)
-}
-
-// ListUserResponse はユーザーリストのレスポンス構造体です
-type ListUserResponse struct {
-	Users      []*models.User `json:"users"`
-	TotalCount *int           `json:"total_count"`
-	Offset     *int           `json:"offset"`
-	Limit      *int           `json:"limit"`
+	writeJSONResponse(w, res, requestID)
 }
 
 func (h *UserHandler) Create(w http.ResponseWriter, _ *http.Request) {

@@ -82,7 +82,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/models.User"
+                  "$ref": "#/components/schemas/response.UserResponse"
                 }
               }
             },
@@ -155,7 +155,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/handlers.ListUserResponse"
+                  "$ref": "#/components/schemas/response.ListUserResponse"
                 }
               }
             },
@@ -192,26 +192,6 @@
   },
   "components": {
     "schemas": {
-      "handlers.ListUserResponse": {
-        "properties": {
-          "limit": {
-            "type": "integer"
-          },
-          "offset": {
-            "type": "integer"
-          },
-          "total_count": {
-            "type": "integer"
-          },
-          "users": {
-            "items": {
-              "$ref": "#/components/schemas/models.User"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
       "handlers.LoginRequest": {
         "properties": {
           "password": {
@@ -250,7 +230,28 @@
         },
         "type": "object"
       },
-      "models.User": {
+      "response.ListUserResponse": {
+        "description": "User account list information",
+        "properties": {
+          "limit": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "total_count": {
+            "type": "integer"
+          },
+          "users": {
+            "items": {
+              "$ref": "#/components/schemas/response.UserResponse"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "response.UserResponse": {
         "description": "User account information",
         "properties": {
           "created_at": {

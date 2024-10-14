@@ -51,10 +51,10 @@ func (mr *MockClientMockRecorder) GetUser(ctx, id interface{}) *gomock.Call {
 }
 
 // ListUser mocks base method.
-func (m *MockClient) ListUser(ctx context.Context, offset, limit *int) ([]*models.User, error) {
+func (m *MockClient) ListUser(ctx context.Context, offset, limit *int) ([]models.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListUser", ctx, offset, limit)
-	ret0, _ := ret[0].([]*models.User)
+	ret0, _ := ret[0].([]models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
