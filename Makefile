@@ -24,10 +24,14 @@ up: ## Run container
 clean: ## Clean up
 	docker system prune -f
 
-## Swagger ##
+## Generate ##
 swagger: ## Generate swagger
 	swag init -g cmd/api/main.go -o docs/swagger
 	npm run convert-openapi
+
+.PHONY: generate-mocks
+generate-mocks:
+	go generate ./internal/mocks/...
 
 help: ## display this help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)

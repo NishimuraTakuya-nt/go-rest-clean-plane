@@ -11,9 +11,9 @@ import (
 	"time"
 
 	_ "github.com/NishimuraTakuya-nt/go-rest-clean-plane/docs/swagger"
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/secondary/piyographql"
 
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/primary/http/routes"
-	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/secondary/graphql"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/usecases"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/auth"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/config"
@@ -37,7 +37,7 @@ func run() error {
 	cfg := config.Load()
 
 	tokenService := auth.NewTokenService(cfg.JWTSecretKey)
-	graphQLClient := graphql.NewClient()
+	graphQLClient := piyographql.NewClient()
 	userUseCase := usecases.NewUserUseCase(graphQLClient)
 
 	router := routes.SetupRouter(cfg, tokenService, userUseCase)

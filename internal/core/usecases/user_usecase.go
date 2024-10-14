@@ -3,7 +3,7 @@ package usecases
 import (
 	"context"
 
-	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/secondary/graphql"
+	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/adapters/secondary/piyographql"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/core/domain/models"
 	"github.com/NishimuraTakuya-nt/go-rest-clean-plane/internal/infrastructure/logger"
 )
@@ -14,10 +14,10 @@ type UserUseCase interface {
 }
 
 type userUseCase struct {
-	graphqlClient graphql.Client
+	graphqlClient piyographql.Client
 }
 
-func NewUserUseCase(client graphql.Client) UserUseCase {
+func NewUserUseCase(client piyographql.Client) UserUseCase {
 	return &userUseCase{
 		graphqlClient: client,
 	}
